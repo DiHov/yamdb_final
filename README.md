@@ -1,5 +1,6 @@
 # Проект YaMDb
-[![yamdb final workflow](https://github.com//DiHov/yamdb_final/actions/workflows/main.yml/badge.svg)](https://github.com/DiHov/yamdb_final)
+
+![yamdb workflow](https://github.com/DiHov/yamdb_final/actions/workflows/main.yml/badge.svg)
 
 ### Описание
 Проект YaMDb собирает отзывы пользователей на произведения. Произведения делятся на категории: «Книги», «Фильмы», «Музыка».

@@ -9,7 +9,7 @@ services:
     env_file:
       - ./.env
   web:
-    build: .
+    image: dihov/yamdb_final:latest
     restart: always
     volumes:
       - static_value:/var/html/static/
