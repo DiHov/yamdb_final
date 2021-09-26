@@ -29,19 +29,19 @@ jobs:
     needs: tests
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2 # Проверяет доступность репозитория DockerHub для workflow
+        uses: actions/checkout@v2
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1 # Вызывает сборщик контейнеров docker
+        uses: docker/setup-buildx-action@v1
       - name: Login to Docker 
-        uses: docker/login-action@v1 # Запуск скрипта авторизации на DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }} 
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to Docker Hub
-        uses: docker/build-push-action@v2 # Выполняет push образа в DockerHub 
+        uses: docker/build-push-action@v2 
         with:
           push: true
-          tags: dihov/infra_actions:v1
+          tags: dihov/yamdb_final:v1
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
@@ -55,12 +55,10 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           stack_file_name: docker-compose.yaml
           script: |
-            sudo docker pull <имя-пользователя>/<имя-репозитория>
+            sudo docker pull dihov/yamdb_final:v1
             sudo docker-compose stop
             sudo docker-compose rm web
-            # Создаст файл для переменных окружения
-            touch .env 
-            # Наполнит файл переменными окружения из секретов GitHub
+            touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
             echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
@@ -69,13 +67,13 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             sudo docker-compose up -d 
 
-  tg message:
+  send_message:
     runs-on: ubuntu-latest
+    needs: deploy
     steps:
-    - uses: actions/checkout@master
-    - name: send custom message with args
+    - name: send message
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: The ${{ github.event_name }} event triggered first step.
+        message: ${{ github.workflow }} успешно выполнен! 
