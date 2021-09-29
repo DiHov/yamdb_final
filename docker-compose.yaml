@@ -12,9 +12,9 @@ services:
     image: dihov/yamdb_final:v1
     restart: always
     volumes:
-      - static_value:/code/static/
+      - static_value:/var/html/static/
 
-      - media_value:/code/media/
+      - media_value:/var/html/media/
     depends_on:
       - db
     env_file:
