@@ -1,5 +1,7 @@
 # Проект YaMDb
 
+[Проект расположен по адресу](http://62.84.114.225/) http://62.84.114.225/
+
 [![yamdb workflow](https://github.com/DiHov/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)](https://github.com/DiHov/yamdb_final/actions/workflows/main.yml)
 
 ### Описание
